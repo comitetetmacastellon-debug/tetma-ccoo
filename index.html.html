@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quieres ser delegado/a? — CC.OO. TETMA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+  :root {
+    --rojo: #CC0000;
+    --rojo-oscuro: #990000;
+    --negro: #1a1a1a;
+    --gris-oscuro: #2d2d2d;
+    --gris-medio: #6b6b6b;
+    --gris-claro: #e8e8e4;
+    --blanco-roto: #f5f4f0;
+    --blanco: #ffffff;
+    --verde: #2d6a4f;
+    --amarillo: #f4a261;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blanco-roto);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* PANTALLA */
+  .pantalla {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    animation: fadeIn 0.4s ease;
+  }
+  .pantalla.activa { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--blanco);
+    border-bottom: 2px solid var(--rojo);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-ccoo { height: 48px; }
+  .progreso {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gris-claro);
+    transition: background 0.3s;
+  }
+  .dot.activo { background: var(--rojo); }
+  .dot.completado { background: var(--negro); }
+
+  /* CONTENIDO */
+  .contenido {
+    flex: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    width: 100%;
+  }
+
+  /* ETIQUETA */
+  .etiqueta {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rojo);
+    margin-bottom: 12px;
+  }
+
+  /* TÍTULOS */
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.1;
+    color: var(--negro);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    color: var(--negro);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--negro);
+    margin-bottom: 8px;
+  }
+
+  /* TEXTO */
+  .bajada {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--gris-medio);
+    margin-bottom: 32px;
+    max-width: 540px;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gris-oscuro);
+    margin-bottom: 12px;
+  }
+
+  /* BOTONES */
+  .btn-primario {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--rojo);
+    color: var(--blanco);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    border-radius: 2px;
+  }
+  .btn-primario:hover { background: var(--rojo-oscuro); transform: translateY(-1px); }
+  .btn-primario:active { transform: translateY(0); }
+
+  .btn-secundario {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--gris-medio);
+    border: 1px solid var(--gris-claro);
+    padding: 12px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .btn-secundario:hover { border-color: var(--negro); color: var(--negro); }
+
+  .botones { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; align-items: center; }
+
+  /* CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 480px) { .cards-grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    padding: 20px;
+    border-radius: 4px;
+  }
+  .card.verde { border-left: 3px solid var(--verde); }
+  .card.roja { border-left: 3px solid var(--rojo); }
+  .card.neutral { border-left: 3px solid var(--negro); }
+
+  .card-icono { font-size: 22px; margin-bottom: 10px; }
+  .card-titulo { font-size: 14px; font-weight: 600; color: var(--negro); margin-bottom: 6px; }
+  .card-texto { font-size: 13px; color: var(--gris-medio); line-height: 1.5; }
+
+  /* LISTA */
+  .lista { list-style: none; margin: 16px 0; }
+  .lista li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gris-claro);
+    font-size: 14px;
+    color: var(--gris-oscuro);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .lista li:last-child { border-bottom: none; }
+  .lista li .icono { flex-shrink: 0; margin-top: 1px; }
+
+  /* PROS CONTRAS */
+  .pros-contras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+  @media (max-width: 480px) { .pros-contras { grid-template-columns: 1fr; } }
+
+  .columna-titulo {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid;
+  }
+  .columna-titulo.pro { color: var(--verde); border-color: var(--verde); }
+  .columna-titulo.contra { color: var(--rojo); border-color: var(--rojo); }
+
+  .item-lista {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--gris-oscuro);
+    line-height: 1.5;
+  }
+  .item-lista .mark { flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+  .item-lista .mark.pro { color: var(--verde); }
+  .item-lista .mark.contra { color: var(--rojo); }
+
+  /* ALERTA */
+  .alerta {
+    background: #fff8e1;
+    border-left: 3px solid var(--amarillo);
+    padding: 16px 20px;
+    border-radius: 2px;
+    font-size: 14px;
+    color: var(--gris-oscuro);
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  /* PASOS */
+  .pasos { margin: 20px 0; }
+  .paso {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .paso-num {
+    width: 32px; height: 32px;
+    background: var(--negro);
+    color: var(--blanco);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .paso-contenido h3 { font-size: 15px; margin-bottom: 4px; }
+  .paso-contenido p { font-size: 13px; color: var(--gris-medio); margin: 0; }
+
+  /* BLOQUE DESTACADO */
+  .destacado {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 28px 28px;
+    border-radius: 4px;
+    margin: 24px 0;
+  }
+  .destacado h3 { color: var(--blanco); font-size: 18px; margin-bottom: 12px; }
+  .destacado p { color: rgba(255,255,255,0.75); font-size: 14px; }
+
+  /* CONTACTO */
+  .contacto-box {
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    padding: 20px;
+    border-radius: 4px;
+    margin: 12px 0;
+  }
+  .contacto-box .titulo { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--rojo); margin-bottom: 6px; }
+  .contacto-box .dato { font-size: 14px; color: var(--negro); font-weight: 500; }
+  .contacto-box .desc { font-size: 12px; color: var(--gris-medio); margin-top: 4px; }
+
+  /* PANTALLA FINAL */
+  .final-hero {
+    background: var(--rojo);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--blanco);
+  }
+  .final-hero h1 { color: var(--blanco); font-size: clamp(28px, 5vw, 44px); margin-bottom: 12px; }
+  .final-hero p { color: rgba(255,255,255,0.85); font-size: 16px; max-width: 480px; margin: 0 auto; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gris-claro); margin: 24px 0; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--negro);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- PANTALLA 0: PORTADA -->
+<div class="pantalla activa" id="p0">
+  <div class="header">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdkAAAHaCAIAAADDsaT7AAAgAElEQVR4Xu2deZwdVZn3n1O3tyydkBAgIUAEDYQlQGRfFFBAZBkEAQdwRwfecXtn3H1l3MbRYXRUFB1RB1kGRJB12ERAEAIikbBDWBOy7yTpprvvvXXeP6rq3KeCmtfWkrZXf+ACn+pWzVPnfOtXvqrTp37y05/9AgAAAAAAAACgFiuqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" class="logo-ccoo" alt="CC.OO. Hàbitat" onerror="this.style.display='none'">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAdkAAAHaCAIAAADDsaT7AAAgAElEQVR4Xu2deZwdVZn3n1O3tyydkBAgIUAEDYQlQGRfFFBAZBkEAQdwRwfecXtn3H1l3MbRYXRUFB1RB1kGRJB12ERAEAIikbBDWBOy7yTpprvvvXXeP6rq3KeCmtfWkrZXf+ACn+pWzVPnfOtXvqrTp37y05/9AgAAAAAAAACgFiuqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" class="logo-ccoo" alt="" style="display:none">
+    <div class="progreso" id="progreso">
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">CC.OO. TETMA — Elecciones 2026</div>
+    <h1>¿Quieres ser delegado/a sindical?</h1>
+    <p class="bajada">Antes de decidirte, te explicamos todo lo que necesitas saber. Sin adornos. Con honestidad.</p>
+    <div class="cards-grid">
+      <div class="card neutral">
+        <div class="card-icono">📋</div>
+        <div class="card-titulo">Qué es el comité</div>
+        <div class="card-texto">Para qué sirve y qué puede hacer realmente</div>
+      </div>
+      <div class="card neutral">
+        <div class="card-icono">📅</div>
+        <div class="card-titulo">El día a día</div>
+        <div class="card-texto">Qué hace un delegado/a de verdad</div>
+      </div>
+      <div class="card verde">
+        <div class="card-icono">✅</div>
+        <div class="card-titulo">Los pros</div>
+        <div class="card-texto">Derechos, protecciones y lo que ganas</div>
+      </div>
+      <div class="card roja">
+        <div class="card-icono">⚠️</div>
+        <div class="card-titulo">Los contras</div>
+        <div class="card-texto">La realidad sin filtros de TETMA</div>
+      </div>
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(1)">Empezar →</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA, Técnicas y Tratamientos Medioambientales, S.A.U. · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 1: QUÉ ES EL COMITÉ -->
+<div class="pantalla" id="p1">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">Qué es el comité</div>
+    <div class="progreso" id="progreso1">
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">Paso 1 de 6</div>
+    <h2>El comité de empresa</h2>
+    <p>El comité de empresa es el órgano legal de representación de los trabajadores. En TETMA está formado por <strong>13 delegados/as</strong> elegidos cada 4 años por todos los trabajadores.</p>
+    <p>Actualmente: <strong>8 CC.OO. · 4 UGT · 1 Administración</strong></p>
+    <div class="divider"></div>
+    <h3>Para qué sirve realmente</h3>
+    <ul class="lista">
+      <li><span class="icono">📋</span>Negociar el convenio colectivo — salarios, jornada, condiciones</li>
+      <li><span class="icono">🔍</span>Vigilar que la empresa cumpla la ley y el convenio</li>
+      <li><span class="icono">📢</span>Ser informado de despidos, sanciones, cambios de condiciones</li>
+      <li><span class="icono">⚖️</span>Intervenir en conflictos individuales y colectivos</li>
+      <li><span class="icono">🦺</span>Controlar la prevención de riesgos laborales</li>
+      <li><span class="icono">📊</span>Acceder a información económica de la empresa</li>
+    </ul>
+    <div class="alerta">
+      💡 <strong>El comité no tiene poder ejecutivo.</strong> Puede negociar, vigilar y denunciar — pero no puede ordenar a la empresa. Su fuerza viene de la presión colectiva, la negociación y las denuncias a la Inspección de Trabajo.
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(2)">Siguiente →</button>
+      <button class="btn-secundario" onclick="ir(0)">← Volver</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 2: EL DÍA A DÍA -->
+<div class="pantalla" id="p2">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">El día a día</div>
+    <div class="progreso">
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">Paso 2 de 6</div>
+    <h2>Qué hace un delegado/a</h2>
+    <p>No es solo ir a reuniones. Esto es lo que realmente ocupa el tiempo de un delegado/a en TETMA:</p>
+    <div class="pasos">
+      <div class="paso">
+        <div class="paso-num">1</div>
+        <div class="paso-contenido">
+          <h3>Atender consultas de compañeros/as</h3>
+          <p>Nóminas incorrectas, permisos denegados, sanciones, cambios de turno, accidentes... Los trabajadores llaman y escriben con sus problemas.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">2</div>
+        <div class="paso-contenido">
+          <h3>Reuniones internas de CC.OO.</h3>
+          <p>Cada semana los 8 delegados de CC.OO. se reúnen para coordinar posiciones y preparar las reuniones del comité.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">3</div>
+        <div class="paso-contenido">
+          <h3>Reuniones del comité con la empresa</h3>
+          <p>El art. 66 del ET establece un mínimo de una reunión cada 2 meses con la dirección. En TETMA se celebran además reuniones de PRL y de seguimiento. A estas se suman reuniones extraordinarias por negociación colectiva, consultas o cualquier asunto urgente que lo requiera.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">4</div>
+        <div class="paso-contenido">
+          <h3>Documentación y seguimiento</h3>
+          <p>Redactar escritos, llevar registro de horas sindicales, preparar denuncias a la Inspección de Trabajo, archivar documentación.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">5</div>
+        <div class="paso-contenido">
+          <h3>Formación continua</h3>
+          <p>Derecho laboral, convenios, prevención de riesgos, negociación colectiva. Sin formación no se puede defender bien a los compañeros.</p>
+        </div>
+      </div>
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(3)">Siguiente →</button>
+      <button class="btn-secundario" onclick="ir(1)">← Volver</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 3: PROS Y CONTRAS -->
+<div class="pantalla" id="p3">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">Pros y contras</div>
+    <div class="progreso">
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">Paso 3 de 6</div>
+    <h2>Sin engaños</h2>
+    <p>Ser delegado/a tiene ventajas reales. Pero también tiene un coste real. Aquí va todo, sin adornar:</p>
+    <div class="pros-contras">
+      <div>
+        <div class="columna-titulo pro">✅ Lo bueno</div>
+        <div class="item-lista"><span class="mark pro">+</span>Protección legal frente al despido durante el mandato y un año después</div>
+        <div class="item-lista"><span class="mark pro">+</span>Horas sindicales retribuidas (30-40h/mes)</div>
+        <div class="item-lista"><span class="mark pro">+</span>Expediente contradictorio obligatorio ante sanciones graves</div>
+        <div class="item-lista"><span class="mark pro">+</span>Respaldo jurídico de CC.OO. — abogados y asesores</div>
+        <div class="item-lista"><span class="mark pro">+</span>Formación sindical gratuita</div>
+        <div class="item-lista"><span class="mark pro">+</span>Conocimiento profundo de tus derechos laborales</div>
+        <div class="item-lista"><span class="mark pro">+</span>Capacidad real de cambiar cosas para 350 personas</div>
+        <div class="item-lista"><span class="mark pro">+</span>Desarrollo de habilidades — negociación, liderazgo</div>
+        <div class="item-lista"><span class="mark pro">+</span>Crecimiento personal y reconocimiento</div>
+      </div>
+      <div>
+        <div class="columna-titulo contra">⚠️ Lo difícil</div>
+        <div class="item-lista"><span class="mark contra">−</span>Presión constante de la empresa</div>
+        <div class="item-lista"><span class="mark contra">−</span>Te graban — en el trabajo y en reuniones</div>
+        <div class="item-lista"><span class="mark contra">−</span>Confidentes y espías entre los propios compañeros</div>
+        <div class="item-lista"><span class="mark contra">−</span>Compañeros que piden ayuda pero luego no te apoyan</div>
+        <div class="item-lista"><span class="mark contra">−</span>Carga emocional — llevas los problemas de 350 personas</div>
+        <div class="item-lista"><span class="mark contra">−</span>Tiempo personal fuera del horario laboral</div>
+        <div class="item-lista"><span class="mark contra">−</span>Aislamiento — a veces te quedas solo/a frente a la empresa</div>
+        <div class="item-lista"><span class="mark contra">−</span>Conflictos y tensiones continuas con la dirección</div>
+        <div class="item-lista"><span class="mark contra">−</span>Necesitas formarte — no basta con buena voluntad</div>
+      </div>
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(4)">Siguiente →</button>
+      <button class="btn-secundario" onclick="ir(2)">← Volver</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 4: DERECHOS LEGALES -->
+<div class="pantalla" id="p4">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">Tus derechos</div>
+    <div class="progreso">
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">Paso 4 de 6</div>
+    <h2>Lo que la ley te garantiza</h2>
+    <p>Como delegado/a tienes protecciones legales concretas recogidas en el <strong>artículo 68 del ET</strong> y la <strong>LOLS</strong>:</p>
+    <div class="cards-grid">
+      <div class="card verde">
+        <div class="card-titulo">🛡️ Protección frente al despido</div>
+        <div class="card-texto">No pueden despedirte ni sancionarte por ejercer tu cargo. La protección dura el mandato + 1 año.</div>
+      </div>
+      <div class="card verde">
+        <div class="card-titulo">📋 Expediente contradictorio</div>
+        <div class="card-texto">Ante sanciones graves o muy graves, la empresa debe abrir un expediente en el que serás oído/a.</div>
+      </div>
+      <div class="card verde">
+        <div class="card-titulo">⏰ Horas sindicales</div>
+        <div class="card-texto">Tiempo retribuido para ejercer tus funciones: 30h/mes para delegados, 40h para el Presidente y Delegado Sindical.</div>
+      </div>
+      <div class="card verde">
+        <div class="card-titulo">📢 Libertad de expresión</div>
+        <div class="card-texto">Puedes expresar tu posición en materias relacionadas con tu cargo sin represalias.</div>
+      </div>
+      <div class="card verde">
+        <div class="card-titulo">📁 Acceso a información</div>
+        <div class="card-titulo" style="font-size:12px;margin-top:4px">Art. 64 ET</div>
+        <div class="card-texto">La empresa debe informarte de situación económica, plantilla, horas extra, accidentes laborales y más.</div>
+      </div>
+      <div class="card verde">
+        <div class="card-titulo">🏢 Prioridad de permanencia</div>
+        <div class="card-texto">En despidos colectivos o suspensiones por causas económicas, tienes prioridad para quedarte.</div>
+      </div>
+    </div>
+    <div class="alerta">
+      💡 Aunque la ley te protege, en la práctica pueden intentar presionarte de otras formas. Por eso CC.OO. te da respaldo jurídico desde el primer día.
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(5)">Siguiente →</button>
+      <button class="btn-secundario" onclick="ir(3)">← Volver</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 5: CÓMO SER CANDIDATO -->
+<div class="pantalla" id="p5">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">Cómo presentarte</div>
+    <div class="progreso">
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <div class="contenido">
+    <div class="etiqueta">Paso 5 de 6</div>
+    <h2>Requisitos y proceso electoral</h2>
+    <p>Para presentarte como candidato/a con CC.OO. necesitas cumplir estos requisitos básicos:</p>
+    <ul class="lista">
+      <li><span class="icono">✅</span>Ser trabajador/a de TETMA</li>
+      <li><span class="icono">✅</span>Tener más de 18 años</li>
+      <li><span class="icono">✅</span>Llevar al menos 6 meses en la empresa</li>
+      <li><span class="icono">✅</span>Estar afiliado/a a CC.OO. (o afiliarte al presentar candidatura)</li>
+      <li><span class="icono">✅</span>No ocupar un cargo directivo con poder de despido</li>
+    </ul>
+    <div class="divider"></div>
+    <h3>El proceso electoral</h3>
+    <div class="pasos">
+      <div class="paso">
+        <div class="paso-num">1</div>
+        <div class="paso-contenido">
+          <h3>Convocatoria de elecciones</h3>
+          <p>Previstas para principios de 2026. CC.OO. te avisará con suficiente antelación.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">2</div>
+        <div class="paso-contenido">
+          <h3>Proceso interno de CC.OO. previo</h3>
+          <p>Antes de las elecciones sindicales, CC.OO. celebra su propio proceso interno. Cualquier afiliado/a puede presentarse como candidato/a. El orden definitivo de la lista lo decide el órgano competente de CC.OO. Hàbitat en función de la implicación y aportación sindical de cada persona. Si no estás de acuerdo con tu posición en la lista, puedes trasladar tus objeciones al órgano competente — pero nunca presentarte en una lista distinta sin autorización expresa, ya que según los Estatutos de CC.OO. causaría baja automática del sindicato.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">3</div>
+        <div class="paso-contenido">
+          <h3>Campaña y votación</h3>
+          <p>Todos los trabajadores de TETMA votan. Los más votados de cada lista obtienen los escaños.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <div class="paso-num">4</div>
+        <div class="paso-contenido">
+          <h3>Constitución del comité</h3>
+          <p>Los delegados elegidos forman el nuevo comité. Mandato de 4 años.</p>
+        </div>
+      </div>
+    </div>
+    <div class="botones">
+      <button class="btn-primario" onclick="ir(6)">Siguiente →</button>
+      <button class="btn-secundario" onclick="ir(4)">← Volver</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA · Castelló de la Plana</div>
+</div>
+
+<!-- PANTALLA 6: CONTACTO / FINAL -->
+<div class="pantalla" id="p6">
+  <div class="header">
+    <div style="font-size:13px;font-weight:600;color:var(--gris-medio)">¿Te interesa?</div>
+    <div class="progreso">
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot completado"></div>
+      <div class="dot activo"></div>
+    </div>
+  </div>
+  <div class="final-hero">
+    <h1>¿Quieres dar el paso?</h1>
+    <p>Si después de leer todo esto sigues interesado/a, es buena señal. Necesitamos personas comprometidas y con los pies en el suelo.</p>
+  </div>
+  <div class="contenido">
+    <div class="destacado">
+      <h3>Lo que CC.OO. te ofrece</h3>
+      <p>Al presentarte con CC.OO. no estás solo/a. Tienes acceso a asesoramiento jurídico, formación sindical, el respaldo de la federación Hàbitat y la experiencia acumulada del equipo actual.</p>
+    </div>
+    <h3 style="margin-bottom:16px">Contacta para saber más</h3>
+    <div class="contacto-box">
+      <div class="titulo">Delegado CC.OO. en TETMA</div>
+      <div class="dato">David Rodríguez — Presidente del Comité</div>
+      <div class="desc">📧 comite.tetmacastellon@proton.me</div>
+    </div>
+    <div class="contacto-box">
+      <div class="titulo">Orientación sindical CC.OO. Hàbitat</div>
+      <div class="dato">Asesores sindicales de la federación</div>
+      <div class="desc">📧 consultaspv@habitat.ccoo.es · 📱 WhatsApp 645 44 04 13</div>
+    </div>
+    <div class="contacto-box">
+      <div class="titulo">Sede CC.OO. Castellón</div>
+      <div class="dato">Plaça de les Aules, 6 — 12001 Castelló</div>
+      <div class="desc">📞 964 22 60 16 · Lunes a jueves 9:00-14:00 y 16:00-19:00</div>
+    </div>
+    <div class="botones">
+      <button class="btn-secundario" onclick="ir(0)">↩ Volver al inicio</button>
+    </div>
+  </div>
+  <div class="footer">CC.OO. Hàbitat · TETMA, Técnicas y Tratamientos Medioambientales, S.A.U. · Castelló de la Plana · Mayo 2026</div>
+</div>
+
+<script>
+  // Logo en base64
+  const logoB64 = "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Nu5b8bYA06Ztn28wceLEfIPyaK1XrFipw/qri1594smnXnzxpWq1WumoRBd+arX6tKnbzdzlzW/a5U1bbzOlu3vMlCkFD2vk0NnZWTjE203bQm/UAy3F34QWP/nEkzfddMull12+YMFTToPu7u499tjnlFNOftexRx84Eu/bXL5s2W233TF//mO33HrrsmWL+/v78+17enq6unuOeNsRBx108H77zXnn0e8ofHtOk6ROe1euWHnbbbf//vd33XTz9Zs2uZ+43X77nY477pjzzj33gAMPcBpksWnTpp///Of9/f3ONxRrrQcGBs4797ypieJce+218+bN22qrrYxNR0fnnXfdZac1KKXuu+++Cy64QJzO9/X1TZ8+/dxzz81OmuLPD/353vv+9NCDD9973z3r168tfGHT+PHjt9562tFHH7nvPvse9Y4j9txzzxzjgYHBS359yaqVK8WbkjYWPeL8b9+9YNasXUVlBgYGdt111hlnnFYo5aBdyXpfVMvCg9bJQ3MfNMarVq36zre+E+S+xowTBMH/OfcTr7zySm4V8vjzQ38+++wPjR03oaioTIIg2H3P2Tddd+OGDRuKStNa69/97ob8Bk6cOHnZ0qWRcV9f349+8ONddtk1x54TBB2nnnrGgucWFNWiwcqVK4typT8/+JCxf9e73lVkLsm5/2/atGm5tdNa600bN115+VWHH35k/vvt8unu7jnzzA8+/eRTWaVs2LBh4lZTirJpgjn7Hpjz7jrQ7oxCLZ573wOR5cKXX95xxx3zjZ1MmjTp6SefLqqIZM2qVR/9yMdH8Eun3fecPff+uUXF6ut+d4NS+Vq89bKly7TWTz319NsOPyrHMouOzu4f/eDCoorErFu3burUafkZzv/ro8b+wx/+cL5xU+y///65tdP/+7+3zN5r36JsmuCzn/n8ihUr7II2bdq0554jWdBxx52U87JN0O6MQi2O1lwvLHi+8E3HOXR1dz/9VBNyfOMNN03OeNA5YTgarZT6r//6RX7R1xWtiydP3m5oaOi55xZsVySRGcQ1//Sn/2+Zddm6deumTSso6LE3TIsPPPDArIpVq9XvfvuCogyGw867zHz88SdEcZs2bZo9e05R0iY46YSTocWjmOGfo7Us07efvm7tuj1n7/X6668X2WYyNDh4zLHHrFi+osiQiOiySy87+T1/t3bt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pL322ivfpqm7FJqlWq1edtnlZ33AWneXpsz14q98selnf2fvs/cuby54ndtTTz+db5BNodQWNWnLsmrlqn8871O//NXFRPl1G+4FdEZh14BRyShcF2+//Q5FJilG8NmQkgwNDVWr1Vdeevn6G2+66+4//vGeUjck5CwVM9bF5qjaYUbT76tTSr3zqKNeenFBjs2ri18N6/Wg+TfqFi79vCtxGIbVanXd2nXz5s275977fvObq5csXliUaGTw3nbghVGoxTtNL/hJCMHESUUvmd2M8+WB/oHFSxa//Mora9asHhqqbXptw9yHHn7iqcc2bnht4cKFTd2HkHONIn9dvO2222+7TVEbXZx84gm/+OXPcwwWLly0cOGinZu/CFDYoYUGI8tAf/+TTz29fMWKvr5NtWr44vPP/2nugwsXvrR27Zp1614r+fwL0cicaG7htoMWYRRq8c5NXhgdP3ZckUkT9PX1vfjSSy8///JvrvntmjUrX3112cuvvFwdGmwmnjPIjtH8dfHBBx80ecpwtHibqdvlG+gw3FT0KxXDo/Cqy2byyiuvLHl16RNPPH7r7be/9tqGl156ZfmKZWF9qKnZEYARZBRq8Q47Ti8ySVGrFalkOV14cO5Dt99+x0033TT/sb8W2Y4w+co1bhx/3UQTvD4wGAQdObNIvV5bvnzF7H2yjudQsPjbjFORPKrV6o033nTHHXf+9rfXbNgQvd/jjf0ibli8MY0Hrc0o1OLC55oEm//+xgXPLvjCl7508803j8DiN5usehbWfmBgmG+oGdPTTUGQ+3VUuKF91sW33nLr177+r488It4pMeyS3igRL7yYDkYlo1CLm70dqtD18w0uvvhXn/r0p4cGh6l3EUqpsWPH9fVtyrEprOeIE2pd+IDcML64IypWwGYHMZ/+vv7Pf/aLP/35T4oMC1BBUAmC5ETqjRqOzV8cgHZkBL5qaD2adeXC8+VMg3//7n+ce+7HhifESqkg6Nxmm+0++09feH7B8295S+rtYg77onpmMeyflFakKBhmofmUkLESJuXo6+s78aT3JELcdHNUEARBx6xZsy6/9Iqrf3P1G3qDY8KItR20EaNwXdy8KxfZZxz/wx1/+NKXy963q5Tq6ekZN27CjJ12PuzQg3be5c2VzmD/OW+dudvMKVOmRDe65eeQdR+FLvrubvz4iZnHcunr79P13As+Qcf0Yb3FcdjzyjD4ylfOvye+a7DUVYVJkyaN7520x+577Ddn78lTpowbN+6Itx0+c7fdOjoqj81/rNkrYACUZDRqcXG4NYlLN/r6+j76D+c6DliMGTv+1FNPPfboow899JDeCb2943vHWl+m1ev1wm/ws5bnqujq6vxHH6/X6pWOpi8mdHd25b/eOlDBuHHDuwulcJBGRqwffujPF174g+RTXqGzZu19wgnHvfMdR711vzmdnV0TJ/RWrHcZr1q9Wqn8V36PwG0YhV0DRiWjUYtHJooLuO3W215d9FKRFX3qk5/53Of/eaeddqLNpvlnoONl4ONPzl+0aDh3Af/54YIX0W09eesZM2bk2zgpITclTErw1X/5epEJ9YwZ/4P//N4H3n/2uPHj8y21JqJKruCOwBWMLXnSAFqH0ajFTUdxketbOler1S677IoM6xil1E9/+l/nnfcP+WYRlUpl2Bcis5sbH6kODQwO6+d5rrv+pnyDXXfddXxvgX452TJys2L5ivvuy/sJbSKaPn2n+Y8+MmUbx0uubWq1LXGBYst/SQtagWHGf0sz0mFuR8aGDRv+cNfvncaGj51zXkkhju7Dq9ffoAhURPS7391YZCZZt3bdM88+lW8zblhCXIYRuaftiv+5qvDH9K656qqSQkxEXV3dW+CJ+Q7V9NUkMAoYjVrcJMOQ7upQwa8zKKU+8Y9lhZiIVi5bsXBRwXvacm7nyBUuTUQ/u/gi5w8k53DJJZeuXbMq+7giorPed0a2QR6FS7/Ce9rKnEZ0dxXcQLLDDrvsf/AB+TacrmHewNcctbC5kQKjg2KHHvUUrsDsE+qXXnwp/2m93t7ept5R+dzzzw8O94kMVaINSxYvvv666wuMGAP9Az+6MHphZpYmaiI66shSP2JtM4z5T9DbW/yDKYWvhD78sIObuuHvl7/6NfvkbMQIfHf3woIXi0zAKARaXAIr6J57Lu/tZUTU0dFR/r2dRHTrbe6fmubkrSVztS1aY37s4x9bv25dnh3jop/9dNGi6KeJMgudMeMtkyYX/g6sm6K5o9hk5YqcNXvMwoUFpxpN/QbHxg0bb7vjVrbDWcMRCKhFS/Lepg1GKyPgOu1PCWVIM2NGwX0RfX19a9eU/Z2OFcuXf//7JX6iNKOauqgF0Q0Yr7322odK/KgoEb2wYMHnPvfZIit63xmnFd54kEWJ7+4KDC694orCW323K7oQ/OSTTxfeSmi49NeXrVrl+LWtEeeuu+8uMgGjkNGoxU1KawldkOy+x6z865WDg4M//OGPcwwM/f39x7271E8x5b+/uAw33Xz9Bz7wkVUr81aUd9x2x66zds8xMHzqk58oMsmhYJDyf/WKiDa+tvZzn/38sqXL+HXwWq22aWPjOfIdi97aPO+vD61YvjzfJuLZp5/53BeK56f8Ww9L8sAD9339a9/YuHEjz6parfb19ZWfOUDbMRrvaSsnTIbC75Hs6FJBpbOzM/87+p/+7CeHHHLoKaf+XY7Nyy+//IUvfGX+/EdybBpki3/58L/iil/PfXDuD/7jPw48+MCp06aa/WEYvvTCixf99OIf/uh7RI17k7M456Mf32Gn5t7Zzyms71C1+PurC3/8o99ec83s2fvusfvuM2bs9MzTz76yaOGYMd033nhdZLCpv/gS/DHHHvvIww/3jM17ld3tt93xvjPPKrwlI6LwW0etdW73KiL9jW9+/crf/GavPWbvsfus3nHjnlmw4IUXX9h91u4//dmPy3xpCdqR0ajFI40dXVttNXHOnP0feuiBjBREpPr6+k5978k/vvAnxx5zzMzdZvJM6vX6i8+/OHfug5//4udWl/4J946ML/GbnHropRcXnHzqyTvssOPMmbvuufue2263zby/PrZy1bKHHpzLZp0CtfzWN4ufodgcttu21H1my5cvXb586Z13Ni7j7r57Y1F/8oknfOXLX8xfSz711FMHHHTY1792/sGHHDR9euptq2tXr33x5ZeuvvqaUleQYlSQq8VBEGjK79740PMLnn1+wbPX39A4oFSlskVu5ABegBaXuEZhBU53d/fHP/LRXC2O03zq058MguDodx6304wdta4RURB0Pf/c8/f+6a5mT2bXrnvNub/wfRQWikgvXvzq4sWv3nPPXc6jzmSGL33xy9Oa/PEUQVGP08RJw3iHhiLSvb295vOsPXZ/61sPfuSRubmp6Mkn5592+nsnbz31iLe9bespE7XWlUpHbah+5133vPoqv6WhuGeIdJj7ZrtKpXLUEe944fnnc2yymDihl8DoBVpcfI3CqRwnvefESV/eet3a4i/owjD8/Z38+/dh8sKLLxSZuOno7KlV+XN3+e0t6I3ddtvtK//vy/k2JShQ41NPec+//MtX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AAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH+gxQAA4B9oMQAA+AdaDAAA/oEWAwCAf6DFAADgH2gxAAD4B1oMAAD+gRYDAIB/oMUAAOAfaDEAAPgHWgwAAP6BFgMAgH/+P1Cqa+Q9SWNoAAAAAElFTkSuQmCC";
+
+  document.querySelectorAll('.logo-ccoo').forEach(img => {
+    img.src = 'data:image/png;base64,' + logoB64;
+    img.onerror = function() { this.style.display='none'; };
+  });
+
+  function ir(num) {
+    document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+    document.getElementById('p' + num).classList.add('activa');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
